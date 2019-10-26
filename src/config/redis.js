@@ -1,4 +1,4 @@
 export default {
-  host: '127.0.0.1',
-  port: 6379,
+  host: process.env.REGIST_HOST,
+  port: process.env.REGIS_PORT,
 };
