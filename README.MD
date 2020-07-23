@@ -14,7 +14,7 @@ I started this application for developing my skills in javaScript with some fram
 
  
  <p align="center">
-  <img width="560" height="400" src="img/gobarber.png">
+  <img width="560" height="350" src="img/gobarber.png">
 </p>
 
 
