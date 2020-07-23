@@ -1,10 +1,21 @@
 # **Gobarber**
 
-<div style="text-align:center"><img src="img/logo.png" width ="150" /></div>
+
+<p align="center">
+  <img width="150" height="100" src="img/logo.png">
+</p>
+
+<p align="center">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/commonality/readme-inspector.svg">
+  <img alt="Top language" src="https://img.shields.io/github/languages/top/commonality/readme-inspector.svg">
+</p>
 
 I started this application for developing my skills in javaScript with some frameworks node Js, React & React Native. this application has the objective to help barbers to schedule appointments. 
 
-<div style="text-align:center"><img src="img/gobarber.png" width ="700" />
+ 
+ <p align="center">
+  <img width="560" height="400" src="img/gobarber.png">
+</p>
 
 
 </div>
