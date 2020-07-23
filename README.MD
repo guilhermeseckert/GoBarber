@@ -39,5 +39,6 @@ I started this application for developing my skills in javaScript with some fram
 ## Mobile
 
 
+Made with by Guilherme S.Eckert :wave: [Get in touch!](https://www.linkedin.com/in/guilherme-eckert/)
 
 
