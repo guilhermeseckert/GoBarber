@@ -10,7 +10,7 @@
   <img alt="Top language" src="https://img.shields.io/github/languages/top/commonality/readme-inspector.svg">
 </p>
 
-I started this application for developing my skills in javaScript with some frameworks node Js, React & React Native. this application has the objective to help barbers to schedule appointments. 
+It is an application designed for barbershops that allows customers to reserve a time and barbershop owners to control their schedule.
 
  
  <p align="center">
@@ -20,8 +20,40 @@ I started this application for developing my skills in javaScript with some fram
 
 </div>
 
+<h4 align="center"> 
+	🚧  React Select 🚀 Under construction ...  🚧
+</h4>
+
+
+## 🛠 Tecnologias
+
+The following tools were used in the construction of the project:
+
+- [Expo](https://expo.io/)
+- [Node.js](https://nodejs.org/en/)
+- [React](https://pt-br.reactjs.org/)
+- [React Native](https://reactnative.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+  
+
+## Features
+
+- [x] User signIn
+- [x] appointment scheduling
+
+
+### Prerequisites
+
+Before you begin, you will need to have the following tools installed on your machine:
+
+[Git] (https://git-scm.com), 
+[Node.js] (https://nodejs.org/en/).
+In addition, it is good to have an editor to work with the code like 
+[VSCode] (https://code.visualstudio.com/)
+
 
 ## Backend
+
 
 #### Dependencies
   * Bcryptjs
@@ -33,12 +65,37 @@ I started this application for developing my skills in javaScript with some fram
   * Typeorm
   * Uuidv4
 
+### 🎲 Running the Back End (server)
+
+``` bash
+# Clone this repository
+$ git clone <https://github.comguilhermeseckert GoBarber>
+
+# Access the project folder in the / cmd terminal
+$ cd GoBarber
+
+# Go to the server folder
+$ cd backend
+
+# Install the dependencies
+$ yarn
+
+# Run the application in development mode
+$ yarn dev:server
+
+# The server will start at port: 3333 - go to <http: // localhost: 3333>
+```
+  
+
 ## Frontend
 
 
 ## Mobile
 
-
+---
 Made with by Guilherme S.Eckert :wave: [Get in touch!](https://www.linkedin.com/in/guilherme-eckert/)
+
+
+
 
 
