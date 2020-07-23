@@ -25,7 +25,7 @@ It is an application designed for barbershops that allows customers to reserve a
 </h4>
 
 
-## 🛠 Tecnologias
+## 🛠 Technology
 
 The following tools were used in the construction of the project:
 
@@ -44,7 +44,7 @@ The following tools were used in the construction of the project:
 
 ### Prerequisites
 
-Before you begin, you will need to have the following tools installed on your machine:
+Before you begin, you will need to have the following tools installed on your computer:
 
  - [Git](https://git-scm.com) 
  - [Node.js](https://nodejs.org/en/)
@@ -92,10 +92,10 @@ $ yarn dev:server
 # The server will start at port: 3333 - go to <http: // localhost: 3333>
 ```
   
-
+---
 ## Frontend
 
-
+---
 ## Mobile
 
 ---
