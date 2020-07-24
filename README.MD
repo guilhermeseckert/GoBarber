@@ -39,7 +39,7 @@ The following tools were used in the construction of the project:
 ## Features
 
 - [x] User signIn
-- [x] appointment scheduling
+- [x] Reserve
 
 
 ### Prerequisites
