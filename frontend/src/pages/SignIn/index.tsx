@@ -4,7 +4,9 @@ import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { Container, Content, Background } from './styles';
+import { Link } from 'react-router-dom';
+
+import { Container, Content, Background, AnimationContainer } from './styles';
 import logoImg from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -45,6 +47,7 @@ const SignIn: React.FC = () => {
         if (err instanceof Yup.ValidationError) {
           const erros = getValidationErros(err);
           formRef.current?.setErrors(erros);
+          return;
         }
         addToast({
           type: 'error',
@@ -58,25 +61,27 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="GoBarber" />
+        <AnimationContainer>
+          <img src={logoImg} alt="GoBarber" />
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Login In</h1>
-          <Input name="email" icon={FiMail} placeholder="E-mail" />
-          <Input
-            name="password"
-            icon={FiLock}
-            type="password"
-            placeholder="Password"
-          />
-          <Button type="submit">Sign In</Button>
-          <a href="forgot">Forgot password?</a>
-        </Form>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Login In</h1>
+            <Input name="email" icon={FiMail} placeholder="E-mail" />
+            <Input
+              name="password"
+              icon={FiLock}
+              type="password"
+              placeholder="Password"
+            />
+            <Button type="submit">Sign In</Button>
+            <a href="forgot">Forgot password?</a>
+          </Form>
 
-        <a href="login">
-          <FiLogIn />
-          Create new Account
-        </a>
+          <Link to="/signup">
+            <FiLogIn />
+            Create new Account
+          </Link>
+        </AnimationContainer>
       </Content>
 
       <Background />
