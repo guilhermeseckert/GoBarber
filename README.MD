@@ -95,6 +95,38 @@ $ yarn dev:server
 ---
 ## Frontend
 
+#### Dependencies
+  * Axios
+  * Polished
+  * TypeScript
+  * React-router-dom
+  * React-spring
+  * Uuidv4
+  * Yup
+  * Unform
+
+
+### 🎲 Running the Front End 
+
+``` bash
+# Clone this repository
+$ git clone <https://github.comguilhermeseckert GoBarber>
+
+# Access the project folder in the / cmd terminal
+$ cd GoBarber
+
+# Go to the server folder
+$ cd frontend
+
+# Install the dependencies
+$ yarn
+
+# Run the application in development mode
+$ yarn start
+
+# The server will start at port: 30000 - go to <http: // localhost: 30000>
+```
+ 
 ---
 ## Mobile
 
