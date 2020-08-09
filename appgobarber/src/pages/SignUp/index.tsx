@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -6,21 +6,61 @@ import {
   View,
   Platform,
   TextInput,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
+import * as Yup from 'yup';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
+import getValidationErros from '../../utils/getValidationErros';
+
+interface SignUpFormData {
+  name: string;
+  email: string;
+  passwordd: string;
+}
 
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
+
+  const handleSingUp = useCallback(async (data: SignUpFormData) => {
+    try {
+      formRef.current?.setErrors({});
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Name is required'),
+        email: Yup.string()
+          .required('E-mail is required')
+          .email('E-mail need to be valid'),
+        password: Yup.string().min(6, 'Min 6 characters'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      // await api.post('/users', data);
+
+      // history.push('/');
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const erros = getValidationErros(err);
+        formRef.current?.setErrors(erros);
+        return;
+      }
+      Alert.alert(
+        'Register failed',
+        'Register Failed - Please Check your information',
+      );
+    }
+  }, []);
   return (
     <>
       <KeyboardAvoidingView
@@ -37,7 +77,7 @@ const SignUp: React.FC = () => {
             <View>
               <Title>Register </Title>
             </View>
-            <Form ref={formRef} onSubmit={() => {}}>
+            <Form ref={formRef} onSubmit={handleSingUp}>
               <Input
                 autoCapitalize="words"
                 name="name"
@@ -64,12 +104,10 @@ const SignUp: React.FC = () => {
                 secureTextEntry
                 name="password"
                 icon="lock"
-                placeholder="Password"
+                placeholder="Senha"
                 textContentType="newPassword"
                 returnKeyType="send"
-                onSubmitEditing={() => {
-                  formRef.current?.submitForm();
-                }}
+                onSubmitEditing={() => formRef.current?.submitForm()}
               />
 
               <Button

@@ -6,14 +6,17 @@ import {
   View,
   Platform,
   TextInput,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
+import * as Yup from 'yup';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
+import getValidationErros from '../../utils/getValidationErros';
 import {
   Container,
   Title,
@@ -23,14 +26,46 @@ import {
   ForgotPasswordText,
 } from './styles';
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  const handleSignIn = useCallback((data: object) => {
-    console.log(data);
+  const handleSignIn = useCallback(async (data: SignInFormData) => {
+    try {
+      formRef.current?.setErrors({});
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .required('E-mail is required')
+          .email('E-mail need to be valid'),
+        password: Yup.string().required('Password is requeired'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+      // await signIn({
+      //   email: data.email,
+      //   password: data.password,
+      // });
+      // history.push('/dashboard');
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const erros = getValidationErros(err);
+        formRef.current?.setErrors(erros);
+        return;
+      }
+      Alert.alert(
+        'Authentication failed',
+        'Login Failed - Please Check your Credentials',
+      );
+    }
   }, []);
   return (
     <>
