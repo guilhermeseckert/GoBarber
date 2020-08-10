@@ -18,6 +18,7 @@ import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
 import getValidationErros from '../../utils/getValidationErros';
+import api from '../../services/api';
 
 interface SignUpFormData {
   name: string;
@@ -31,36 +32,41 @@ const SignUp: React.FC = () => {
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const handleSingUp = useCallback(async (data: SignUpFormData) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
-        email: Yup.string()
-          .required('E-mail is required')
-          .email('E-mail need to be valid'),
-        password: Yup.string().min(6, 'Min 6 characters'),
-      });
+  const handleSingUp = useCallback(
+    async (data: SignUpFormData) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Name is required'),
+          email: Yup.string()
+            .required('E-mail is required')
+            .email('E-mail need to be valid'),
+          password: Yup.string().min(6, 'Min 6 characters'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      // await api.post('/users', data);
+        await api.post('/users', data);
 
-      // history.push('/');
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const erros = getValidationErros(err);
-        formRef.current?.setErrors(erros);
-        return;
+        Alert.alert('Register sucessefull', 'Enjoy the aplication');
+
+        navigation.goBack();
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const erros = getValidationErros(err);
+          formRef.current?.setErrors(erros);
+          return;
+        }
+        Alert.alert(
+          'Register failed',
+          'Register Failed - Please Check your information',
+        );
       }
-      Alert.alert(
-        'Register failed',
-        'Register Failed - Please Check your information',
-      );
-    }
-  }, []);
+    },
+    [navigation],
+  );
   return (
     <>
       <KeyboardAvoidingView

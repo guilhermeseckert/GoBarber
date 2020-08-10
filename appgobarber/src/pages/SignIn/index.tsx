@@ -17,6 +17,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import logoImg from '../../assets/logo.png';
 import getValidationErros from '../../utils/getValidationErros';
+import { useAuth } from '../../hooks/Auth';
 import {
   Container,
   Title,
@@ -35,38 +36,41 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
+  const { signIn } = useAuth();
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  const handleSignIn = useCallback(async (data: SignInFormData) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail is required')
-          .email('E-mail need to be valid'),
-        password: Yup.string().required('Password is requeired'),
-      });
+  const handleSignIn = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail is required')
+            .email('E-mail need to be valid'),
+          password: Yup.string().required('Password is requeired'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-      // await signIn({
-      //   email: data.email,
-      //   password: data.password,
-      // });
-      // history.push('/dashboard');
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const erros = getValidationErros(err);
-        formRef.current?.setErrors(erros);
-        return;
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const erros = getValidationErros(err);
+          formRef.current?.setErrors(erros);
+          return;
+        }
+        Alert.alert(
+          'Authentication failed',
+          'Login Failed - Please Check your Credentials',
+        );
       }
-      Alert.alert(
-        'Authentication failed',
-        'Login Failed - Please Check your Credentials',
-      );
-    }
-  }, []);
+    },
+    [signIn],
+  );
   return (
     <>
       <KeyboardAvoidingView
