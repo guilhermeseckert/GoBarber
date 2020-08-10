@@ -130,6 +130,38 @@ $ yarn start
 ---
 ## Mobile
 
+
+#### Dependencies
+
+  * Axios
+  * TypeScript
+  * React-navigation/native
+  * React-native-iphone-x-helper
+  * Styled-components
+  * Yup
+  * Unform
+
+
+### 🎲 Running the Mobile
+
+``` bash
+# Clone this repository
+$ git clone <https://github.comguilhermeseckert GoBarber>
+
+# Access the project folder in the / cmd terminal
+$ cd GoBarber
+
+# Go to the server folder
+$ cd mobile
+
+# Install the dependencies
+$ yarn
+
+# Run the application in development mode
+$ yarn ios or android
+
+```
+
 ---
 Made with by Guilherme S.Eckert :wave: [Get in touch!](https://www.linkedin.com/in/guilherme-eckert/)
 
