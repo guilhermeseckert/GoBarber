@@ -35,11 +35,20 @@ The following tools were used in the construction of the project:
 - [React Native](https://reactnative.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
   
+  
+## Software Architecture
+
+- [x] Domain-driven design (DDD)
+- [ ] Test Driven Development(TDD)
+
+
 
 ## Features
 
-- [x] User signIn
-- [x] Reserve
+- [x] Register Users and barbers
+- [x] Book appointment with barbers
+- [ ] Send request to barbers
+- [ ] Appointment analysis
 
 
 ### Prerequisites
@@ -52,9 +61,6 @@ Before you begin, you will need to have the following tools installed on your co
 In addition, it is good to have an editor to work with the code like
 
  - [VSCode](https://code.visualstudio.com/)
-
-
-
 
 
 ## Backend
