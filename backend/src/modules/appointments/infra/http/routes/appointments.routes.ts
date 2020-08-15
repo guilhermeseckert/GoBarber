@@ -8,8 +8,6 @@ import ensureAuthenticated from '@modules/users/infra/http/Middlewares/ensureAut
 
 const appointmentsRouter = Router();
 
-const appointmentsRepository = new AppointmentsRepository();
-
 appointmentsRouter.use(ensureAuthenticated);
 
 // appointmentsRouter.get('/', async (request, response) => {
@@ -21,6 +19,8 @@ appointmentsRouter.use(ensureAuthenticated);
 appointmentsRouter.post('/', async (request, response) => {
   const { provider_id, date } = request.body;
   const parsedDate = parseISO(date);
+
+  const appointmentsRepository = new AppointmentsRepository();
 
   const createappointment = new CreateAppointmentService(
     appointmentsRepository,
