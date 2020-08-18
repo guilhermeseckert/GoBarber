@@ -29,10 +29,20 @@ class SendForgotPasswordEmailService {
 
     const { token } = await this.userTokensRepository.generate(user.id);
 
-    await this.iMailProvider.sendMail(
-      email,
-      `pedido de recuperaçao de senha: ${token}`,
-    );
+    await this.iMailProvider.sendMail({
+      to: {
+        name: user.name,
+        email: user.email,
+      },
+      subject: 'Reset password',
+      templateData: {
+        template: 'Hi, {{name}}: {{token}}',
+        variable: {
+          name: user.name,
+          token,
+        },
+      },
+    });
   }
 }
 
