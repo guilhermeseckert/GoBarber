@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@types/nodemailer": "^6.4.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "date-fns": "^2.13.0",
@@ -19,6 +20,7 @@
     "jest": "^26.4.0",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
+    "nodemailer": "^6.4.11",
     "pg": "^8.2.1",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.3.0",
