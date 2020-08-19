@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-// import User from '@modules/users/infra/typeorm/entities/User';
 import { injectable, inject } from 'tsyringe';
+import { getDaysInMonth, getDate } from 'date-fns';
 import iAppointmentsRepository from '../repositories/iAppointmentsRepository';
 
 interface IRequest {
@@ -34,9 +34,23 @@ class ListProviderMonthAvalibilityService {
       },
     );
 
-    console.log(appointments);
+    const numberOfDaysInMonth = getDaysInMonth(new Date(year, month - 1));
 
-    return [{ day: 1, available: false }];
+    const earchDayArray = Array.from(
+      { length: numberOfDaysInMonth },
+      (value, index) => index + 1,
+    );
+
+    const availability = earchDayArray.map(day => {
+      const appointmentsInDay = appointments.filter(appointment => {
+        return getDate(appointment.date) === day;
+      });
+      return {
+        day,
+        available: appointmentsInDay.length < 10,
+      };
+    });
+    return availability;
   }
 }
 
