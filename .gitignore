@@ -5,3 +5,4 @@ img/.DS_Store
 .yarn.lock
 .yarn
 backend/readme.md
+backend/.env
