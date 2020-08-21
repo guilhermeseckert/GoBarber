@@ -23,7 +23,7 @@ It is an application designed for barbershops that allows customers to reserve a
 <h4 align="center"> 
 	🚧  React Select 🚀 Under construction ...  🚧
 </h4>
-
+ 
 
 ## 🛠 Technology
 
