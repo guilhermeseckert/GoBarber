@@ -45,7 +45,7 @@ The following tools were used in the construction of the project:
 - [x] Register Users and barbers
 - [x] Book appointment with barbers
 - [x] Send request to barbers
-- [x] Appointment analysis
+- [] Appointment analysis
 
 
 ### Prerequisites
