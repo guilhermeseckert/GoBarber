@@ -4,7 +4,7 @@ vscode/
 build/
 temp/
 yarn.lock/
-
+.ormconfig
 tmp/*
 !tmp/.gitkeep
 

@@ -6,3 +6,4 @@ img/.DS_Store
 .yarn
 backend/readme.md
 backend/.env
+backend/ormconfig.json
