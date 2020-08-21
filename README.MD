@@ -21,7 +21,7 @@ It is an application designed for barbershops that allows customers to reserve a
 </div>
 
 <h4 align="center"> 
-	🚧  React Select 🚀 Under construction ...  🚧
+	🚧  Node Select 🚀 Under construction ...  🚧
 </h4>
  
 
@@ -45,7 +45,7 @@ The following tools were used in the construction of the project:
 - [x] Register Users and barbers
 - [x] Book appointment with barbers
 - [x] Send request to barbers
-- [] Appointment analysis
+- [x] Appointment analysis
 
 
 ### Prerequisites
