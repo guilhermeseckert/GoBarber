@@ -36,7 +36,9 @@ The following tools were used in the construction of the project:
 - [TypeScript](https://www.typescriptlang.org/)
   
   
+ ## Design principles
 
+ S.O.L.I.D
 
 
 
