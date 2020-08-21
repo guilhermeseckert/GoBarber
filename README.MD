@@ -36,10 +36,7 @@ The following tools were used in the construction of the project:
 - [TypeScript](https://www.typescriptlang.org/)
   
   
-## Software Architecture
 
-- [x] Domain-driven design (DDD)
-- [ ] Test Driven Development(TDD)
 
 
 
@@ -47,8 +44,8 @@ The following tools were used in the construction of the project:
 
 - [x] Register Users and barbers
 - [x] Book appointment with barbers
-- [ ] Send request to barbers
-- [ ] Appointment analysis
+- [x] Send request to barbers
+- [x] Appointment analysis
 
 
 ### Prerequisites
