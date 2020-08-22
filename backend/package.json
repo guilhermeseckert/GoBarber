@@ -14,6 +14,7 @@
     "@types/mongodb": "^3.5.26",
     "@types/nodemailer": "^6.4.0",
     "aws": "^0.0.3-2",
+    "aws-sdk": "^2.738.0",
     "bcryptjs": "^2.4.3",
     "celebrate": "^12.2.0",
     "class-transformer": "^0.3.1",
