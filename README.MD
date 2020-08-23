@@ -36,18 +36,15 @@ The following tools were used in the construction of the project:
 - [TypeScript](https://www.typescriptlang.org/)
   
   
- ## Design principles
-
- S.O.L.I.D
-
 
 
 ## Features
 
 - [x] Register Users and barbers
+- [x] Reset password
 - [x] Book appointment with barbers
 - [x] Send request to barbers
-- [x] Appointment analysis
+
 
 
 ### Prerequisites
@@ -64,13 +61,30 @@ In addition, it is good to have an editor to work with the code like
 
 ## Backend
 
+#### Design principles
+
+ S.O.L.I.D
 
 #### Dependencies
   * Bcryptjs
+  * Aws-sdk
   * Express
+  * Class-transformer
+  * Dotenv
+  * Celebrate
+  * Cors
+  * Ioredis
+  * Express-async-errors
+  * Handlebars
+  * Jest
+  * Mongodb
   * TypeScript
   * Jsonwebtoken
   * Multer
+  * Rate-limiter-flexible
+  * Nodemailer
+  * Redis
+  * Tsyringe
   * Pg
   * Reflect-metadata
   * Typeorm
