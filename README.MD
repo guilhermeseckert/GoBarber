@@ -114,9 +114,9 @@ $ yarn dev:server
 ---
 ## Frontend
 
-<img width="800" height="600" src="img/Logon.png">
 
-<img width="800" height="600" src="img/Dashboard.png">
+<img src="img/Logon.png" width="600"/> <img src="img/Dashboard.png" width="600"/> 
+
 
 
 #### Dependencies
@@ -154,10 +154,9 @@ $ yarn start
 ---
 ## Mobile
 
-<img width="250" height="600" src="img/mobile/Cadastrar.png">
 
-<img width="250" height="600" src="img/mobile/Lista.png">
 
+<img src="img/mobile/Cadastrar.png" width="325"/> <img src="img/mobile/Lista.png" width="325"/> 
 
 #### Dependencies
 
