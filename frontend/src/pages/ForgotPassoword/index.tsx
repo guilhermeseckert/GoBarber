@@ -12,6 +12,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErros from '../../utils/getValidationErros';
 import { useToast } from '../../hooks/Toast';
+import api from '../../services/api';
 
 interface ForgotPasswordFormData {
   email: string;
@@ -36,9 +37,15 @@ const ForgotPassword: React.FC = () => {
           abortEarly: false,
         });
 
-        // reset password
+        await api.post('/password/forgot', {
+          email: data.email,
+        });
 
-        // history.push('/dashboard');
+        addToast({
+          type: 'success',
+          title: 'E-mail reset sent',
+          description: 'We sent a email for reset the password',
+        });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const erros = getValidationErros(err);
