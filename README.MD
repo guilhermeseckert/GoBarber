@@ -21,7 +21,7 @@ It is an application designed for barbershops that allows customers to reserve a
 </div>
 
 <h4 align="center"> 
-	🚧  Node Select 🚀 Under construction ...  🚧
+	🚧  React Select 🚀 Under construction ...  🚧
 </h4>
  
 
@@ -113,6 +113,11 @@ $ yarn dev:server
   
 ---
 ## Frontend
+
+<img width="1200" height="600" src="img/logon.png">
+
+<img width="1200" height="600" src="img/Dashboard.png">
+
 
 #### Dependencies
   * Axios
