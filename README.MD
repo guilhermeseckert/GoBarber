@@ -114,7 +114,7 @@ $ yarn dev:server
 ---
 ## Frontend
 
-<img width="800" height="600" src="img/logon.png">
+<img width="800" height="600" src="img/Logon.png">
 
 <img width="800" height="600" src="img/Dashboard.png">
 
