@@ -154,9 +154,9 @@ $ yarn start
 ---
 ## Mobile
 
-<img width="300" height="600" src="img/mobile/Cadastrar.png">
+<img width="250" height="600" src="img/mobile/Cadastrar.png">
 
-<img width="300" height="600" src="img/mobile/Lista.png">
+<img width="250" height="600" src="img/mobile/Lista.png">
 
 
 #### Dependencies
