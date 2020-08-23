@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
+import iCacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import iAppointmentsRepository from '../repositories/iAppointmentsRepository';
 
@@ -15,6 +16,8 @@ class ListProviderAppointmentsServices {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: iAppointmentsRepository,
+    @inject('CacheProvider')
+    private cacheProvider: iCacheProvider,
   ) {}
 
   public async execute({
@@ -23,6 +26,10 @@ class ListProviderAppointmentsServices {
     month,
     day,
   }: IRequest): Promise<Appointment[]> {
+    const CacheData = await this.cacheProvider.recover('dede');
+
+    console.log(CacheData);
+
     const appointments = await this.appointmentsRepository.FindAllInDayFromProvider(
       {
         provider_id,
