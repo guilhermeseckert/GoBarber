@@ -5,10 +5,6 @@
   <img width="150" height="100" src="img/logo.png">
 </p>
 
-<p align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/commonality/readme-inspector.svg">
-  <img alt="Top language" src="https://img.shields.io/github/languages/top/commonality/readme-inspector.svg">
-</p>
 
 It is an application designed for barbershops that allows customers to reserve a time and barbershop owners to control their schedule.
 
@@ -36,7 +32,6 @@ The following tools were used in the construction of the project:
 - [TypeScript](https://www.typescriptlang.org/)
   
   
-
 
 ## Features
 
@@ -66,7 +61,7 @@ In addition, it is good to have an editor to work with the code like
  S.O.L.I.D
 
 #### Dependencies
-  * Bcryptjs
+  * Bcryptjs                      
   * Aws-sdk
   * Express
   * Class-transformer
@@ -89,12 +84,13 @@ In addition, it is good to have an editor to work with the code like
   * Reflect-metadata
   * Typeorm
   * Uuidv4
+  
 
 ### 🎲 Running the Back End (server)
 
 ``` bash
 # Clone this repository
-$ git clone <https://github.comguilhermeseckert GoBarber>
+$ git clone <https://github.comguilhermeseckert/GoBarber>
 
 # Access the project folder in the / cmd terminal
 $ cd GoBarber
@@ -134,7 +130,7 @@ $ yarn dev:server
 
 ``` bash
 # Clone this repository
-$ git clone <https://github.comguilhermeseckert GoBarber>
+$ git clone <https://github.comguilhermeseckert/GoBarber>
 
 # Access the project folder in the / cmd terminal
 $ cd GoBarber
@@ -173,7 +169,7 @@ $ yarn start
 
 ``` bash
 # Clone this repository
-$ git clone <https://github.comguilhermeseckert GoBarber>
+$ git clone <https://github.comguilhermeseckert/GoBarber>
 
 # Access the project folder in the / cmd terminal
 $ cd GoBarber
