@@ -15,7 +15,11 @@ import { useAuth } from '../../hooks/Auth';
 interface ProfileFormData {
   name: string;
   email: string;
+  // eslint-disable-next-line camelcase
+  old_password: string;
   password: string;
+  // eslint-disable-next-line camelcase
+  password_confirmation: string;
 }
 
 const Profile: React.FC = () => {
@@ -33,21 +37,58 @@ const Profile: React.FC = () => {
           email: Yup.string()
             .required('E-mail is required')
             .email('E-mail need to be valid'),
-          password: Yup.string().min(6, 'Min 6 characters'),
+          old_password: Yup.string(),
+
+          password: Yup.string().when('old_password', {
+            is: val => !!val.length,
+            then: Yup.string().required('Is required'),
+            otherwise: Yup.string(),
+          }),
+          password_confirmation: Yup.string()
+            .when('old_password', {
+              is: val => !!val.length,
+              then: Yup.string().required('Is required'),
+              otherwise: Yup.string(),
+            })
+            .oneOf([Yup.ref('password'), undefined], 'Passwords must match'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await api.post('/users', data);
+        const {
+          name,
+          email,
+          // eslint-disable-next-line camelcase
+          old_password,
+          password,
+          // eslint-disable-next-line camelcase
+          password_confirmation,
+        } = data;
 
-        history.push('/');
+        const formData = {
+          name,
+          email,
+          ...(data.old_password
+            ? {
+                old_password,
+                password,
+                password_confirmation,
+              }
+            : {}),
+        };
+
+        const response = await api.put('/profile', formData);
+
+        updatedUser(response.data);
+
+        history.push('/dashboard');
 
         addToast({
           type: 'success',
-          title: 'registration done',
-          description: 'Wellcome GoBarber',
+          title: 'Profile updated',
+          description: 'information already updated',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -57,12 +98,12 @@ const Profile: React.FC = () => {
         }
         addToast({
           type: 'error',
-          title: 'Register failed',
+          title: 'updated failed',
           description: 'Register Failed - Please Check your information',
         });
       }
     },
-    [addToast, history],
+    [addToast, history, updatedUser],
   );
 
   const handleAvatarChange = useCallback(
