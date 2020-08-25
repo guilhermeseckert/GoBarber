@@ -7,3 +7,4 @@ img/.DS_Store
 backend/readme.md
 backend/.env
 backend/ormconfig.json
+backend/tmp/uploads/c846f97e2f2e5487dd05-53009976.png
