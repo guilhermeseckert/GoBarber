@@ -1,15 +1,86 @@
-import React from 'react';
-import { View, Button } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import Icon from 'react-native-vector-icons/Feather';
+import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/Auth';
-// import { Container } from './styles';
+import {
+  Container,
+  Header,
+  HeaderTitle,
+  UserName,
+  ProfileButton,
+  UserAvatar,
+  ProvidersList,
+  ProviderContainer,
+  ProviderAvatar,
+  ProviderInfo,
+  ProviderName,
+  ProvidersListTitle,
+  ProviderMeta,
+  ProviderMetaText,
+} from './styles';
+import api from '../../services/api';
+
+export interface Provider {
+  id: string;
+  name: string;
+  // eslint-disable-next-line camelcase
+  avatar_url: string;
+}
 
 const Dashboard: React.FC = () => {
-  const { signOut } = useAuth();
+  const [providers, setProviders] = useState<Provider[]>([]);
+  const { signOut, user } = useAuth();
+  const { navigate } = useNavigation();
+
+  useEffect(() => {
+    api.get('providers').then(response => {
+      setProviders(response.data);
+    });
+  });
+  const navigationToProfile = useCallback(() => {
+    // navigate('Profile');
+    signOut();
+  }, [signOut]);
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Button title="Logout" onPress={signOut} />
-    </View>
+    <Container>
+      <Header>
+        <HeaderTitle>
+          Wellcome,
+          {'\n'}
+          <UserName>{user.name}</UserName>
+        </HeaderTitle>
+        <ProfileButton onPress={navigationToProfile}>
+          <UserAvatar source={{ uri: user.avatar_url }} />
+        </ProfileButton>
+      </Header>
+
+      <ProvidersList
+        data={providers}
+        keyExtractor={provider => provider.id}
+        ListHeaderComponent={<ProvidersListTitle>Barbers</ProvidersListTitle>}
+        renderItem={({ item: provider }) => (
+          <ProviderContainer
+            onPress={() => {
+              console.log(provider.avatar_url);
+            }}
+          >
+            <ProviderAvatar source={{ uri: provider.avatar_url }} />
+            <ProviderInfo>
+              <ProviderName>{provider.name}</ProviderName>
+              <ProviderMeta>
+                <Icon name="calendar" size={14} color="#ff9000" />
+                <ProviderMetaText>Monday to Friday</ProviderMetaText>
+              </ProviderMeta>
+              <ProviderMeta>
+                <Icon name="clock" size={14} color="#ff9000" />
+                <ProviderMetaText>8h to 18h</ProviderMetaText>
+              </ProviderMeta>
+            </ProviderInfo>
+          </ProviderContainer>
+        )}
+      />
+    </Container>
   );
 };
 
