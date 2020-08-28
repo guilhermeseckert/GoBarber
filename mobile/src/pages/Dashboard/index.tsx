@@ -36,11 +36,18 @@ const Dashboard: React.FC = () => {
     api.get('providers').then(response => {
       setProviders(response.data);
     });
-  });
+  }, []);
   const navigationToProfile = useCallback(() => {
     // navigate('Profile');
     signOut();
   }, [signOut]);
+
+  const navigateToCreateAppointment = useCallback(
+    (providerId: string) => {
+      navigate('CreateAppointment', { providerId });
+    },
+    [navigate],
+  );
 
   return (
     <Container>
@@ -61,11 +68,10 @@ const Dashboard: React.FC = () => {
         ListHeaderComponent={<ProvidersListTitle>Barbers</ProvidersListTitle>}
         renderItem={({ item: provider }) => (
           <ProviderContainer
-            onPress={() => {
-              console.log(provider.avatar_url);
-            }}
+            onPress={() => navigateToCreateAppointment(provider.id)}
           >
             <ProviderAvatar source={{ uri: provider.avatar_url }} />
+
             <ProviderInfo>
               <ProviderName>{provider.name}</ProviderName>
               <ProviderMeta>
