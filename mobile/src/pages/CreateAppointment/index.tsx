@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import { format } from 'date-fns';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -27,6 +27,8 @@ import {
   SectionContent,
   Hour,
   HourText,
+  CreateAppointmentButton,
+  CreateAppointmentText,
 } from './styles';
 import api from '../../services/api';
 
@@ -49,7 +51,7 @@ interface availabilityItem {
 const CreateAppointment: React.FC = () => {
   const { user } = useAuth();
   const route = useRoute();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const routeParms = route.params as RouteParmas;
   const [availability, setAvailability] = useState<availabilityItem[]>([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -109,6 +111,27 @@ const CreateAppointment: React.FC = () => {
   const handleSelectHour = useCallback((hour: number) => {
     SetSelectedHour(hour);
   }, []);
+
+  const handleCreateAppoiintment = useCallback(async () => {
+    try {
+      const date = new Date(selectedDate);
+      date.setHours(selectedHour);
+      date.setMinutes(0);
+
+      await api.post('appointments', {
+        provider_id: selectedProvider,
+        date,
+      });
+      navigate('AppointmentCreated', {
+        date: date.getTime(),
+      });
+    } catch (err) {
+      Alert.alert(
+        'error',
+        'Something come wrong, try create the appointment again',
+      );
+    }
+  }, [navigate, selectedProvider, selectedDate, selectedHour]);
 
   const morningAvailability = useMemo(() => {
     return availability
@@ -229,6 +252,10 @@ const CreateAppointment: React.FC = () => {
             </SectionContent>
           </Section>
         </Sechedule>
+
+        <CreateAppointmentButton onPress={handleCreateAppoiintment}>
+          <CreateAppointmentText>Book</CreateAppointmentText>
+        </CreateAppointmentButton>
       </Content>
     </Container>
   );
