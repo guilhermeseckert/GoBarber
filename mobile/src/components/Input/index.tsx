@@ -13,6 +13,7 @@ import { Container, TextInput, Icon } from './styles';
 interface InputPros extends TextInputProps {
   name: string;
   icon: string;
+  containerStyele?: {};
 }
 
 interface InputValueReference {
@@ -24,7 +25,7 @@ interface InputRef {
 
 // eslint-disable-next-line react/prop-types
 const Input: React.RefForwardingComponent<InputRef, InputPros> = (
-  { name, icon, ...rest },
+  { name, icon, containerStyele = {}, ...rest },
   ref,
 ) => {
   const InputElementRef = useRef<any>(null);
@@ -64,7 +65,11 @@ const Input: React.RefForwardingComponent<InputRef, InputPros> = (
     });
   }, [fieldName, registerField]);
   return (
-    <Container isFocused={isFocused} isErrored={!!error}>
+    <Container
+      style={containerStyele}
+      isFocused={isFocused}
+      isErrored={!!error}
+    >
       <Icon
         name={icon}
         size={20}
