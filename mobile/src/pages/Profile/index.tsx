@@ -1,9 +1,9 @@
 import React, { useRef, useCallback } from 'react';
 import {
   KeyboardAvoidingView,
-  ScrollView,
-  View,
   Platform,
+  View,
+  ScrollView,
   TextInput,
   Alert,
 } from 'react-native';
@@ -12,86 +12,85 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/Feather';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import ImagePicker from 'react-native-image-picker';
+
 import {
   Container,
+  BackButton,
   Title,
   UserAvatarButton,
   UserAvatar,
-  BackButton,
 } from './styles';
-import getValidationErros from '../../utils/getValidationErros';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+import getValidationErrors from '../../utils/getValidationErros';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/Auth';
+import profile from '../../imagens/profile.png';
 
 interface ProfileFormData {
   name: string;
   email: string;
-  password: string;
   // eslint-disable-next-line camelcase
   old_password: string;
-  // eslint-disable-next-line camelcase
-  password_confirmation: string;
+  password: string;
+  confirmPassword: string;
 }
 
-const SignUp: React.FC = () => {
-  const { user, updatedUser } = useAuth();
-
+const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
+  const { user, updatedUser } = useAuth();
   const emailInputRef = useRef<TextInput>(null);
-  const oldpasswordInputRef = useRef<TextInput>(null);
+  const oldPasswordInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const confirmPasswordInputRef = useRef<TextInput>(null);
 
-  const handleSingUp = useCallback(
+  const handleProfile = useCallback(
     async (data: ProfileFormData) => {
       try {
         formRef.current?.setErrors({});
-        const schema = Yup.object().shape({
-          name: Yup.string().required('Name is required'),
-          email: Yup.string()
-            .required('E-mail is required')
-            .email('E-mail need to be valid'),
-          old_password: Yup.string(),
 
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Name is requered'),
+          email: Yup.string()
+            .required('E-mail required')
+            .email('email invalid'),
+          old_password: Yup.string(),
           password: Yup.string().when('old_password', {
-            is: val => !!val.length,
-            then: Yup.string().required('Is required'),
+            is: val => val?.length,
+            then: Yup.string()
+              .required('New password is requered')
+              .min(6, 'need to be 6 caracteres'),
             otherwise: Yup.string(),
           }),
-          password_confirmation: Yup.string()
+          confirmPassword: Yup.string()
             .when('old_password', {
-              is: val => !!val.length,
-              then: Yup.string().required('Is required'),
+              is: val => val?.length,
+              then: Yup.string()
+                .required('Confirme password is requeired')
+                .min(6, 'Minium 6 caracteres'),
               otherwise: Yup.string(),
             })
-            .oneOf([Yup.ref('password'), undefined], 'Passwords must match'),
+            .oneOf([Yup.ref('password'), null], 'password need to be the same'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        const {
-          name,
-          email,
-          // eslint-disable-next-line camelcase
-          old_password,
-          password,
-          // eslint-disable-next-line camelcase
-          password_confirmation,
-        } = data;
+        // eslint-disable-next-line camelcase
+        const { name, email, old_password, password, confirmPassword } = data;
 
         const formData = {
           name,
           email,
-          ...(data.old_password
+          // eslint-disable-next-line camelcase
+          ...(old_password
             ? {
                 old_password,
                 password,
-                password_confirmation,
+                confirmPassword,
               }
             : {}),
         };
@@ -100,64 +99,110 @@ const SignUp: React.FC = () => {
 
         updatedUser(response.data);
 
-        Alert.alert(
-          'Profile atualized with sucessefull',
-          'Enjoy the aplication',
-        );
+        Alert.alert('Perfil atualizado com sucesso');
 
         navigation.goBack();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
-          const erros = getValidationErros(err);
-          formRef.current?.setErrors(erros);
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+
           return;
         }
+
         Alert.alert(
-          'Updated failed',
-          'Updated Failed - Please Check your information',
+          'Erro na atualização de perfil',
+          'Ocorreu um erro ao fazer a atualização do perfil, tente novamente.',
         );
       }
     },
-    [navigation],
+    [navigation, updatedUser],
   );
+
+  const handleUpdateAvatar = useCallback(() => {
+    ImagePicker.showImagePicker(
+      {
+        title: 'Selecione um avatar',
+        cancelButtonTitle: 'Cancelar',
+        takePhotoButtonTitle: 'Usar câmera',
+        chooseFromLibraryButtonTitle: 'Escolhe da galeria',
+      },
+      response => {
+        if (response.didCancel) {
+          return;
+        }
+
+        if (response.error) {
+          Alert.alert('Erro ao atualizar seu avatar');
+          return;
+        }
+
+        const data = new FormData();
+
+        data.append('avatar', {
+          type: 'image/jpeg',
+          name: `${user.id}.jpg`,
+          uri: response.uri,
+        });
+
+        api.patch('users/avatar', data).then(apiResponse => {
+          updatedUser(apiResponse.data);
+        });
+      },
+    );
+  }, [updatedUser, user.id]);
 
   const handleGoBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
+
   return (
     <>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         enabled
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <ScrollView
-          keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ flex: 1 }}
+          keyboardShouldPersistTaps="handled"
         >
           <Container>
             <BackButton onPress={handleGoBack}>
-              <Icon name="chevron-left" size={23} color="#999591" />
+              <Icon name="chevron-left" size={24} color="#999591" />
             </BackButton>
-            <UserAvatarButton onPress={() => {}}>
-              <UserAvatar source={{ uri: user.avatar_url }} />
+
+            <UserAvatarButton onPress={handleUpdateAvatar}>
+              {user.avatar_url ? (
+                <UserAvatar source={{ uri: user.avatar_url }} />
+              ) : (
+                <UserAvatar source={profile} />
+              )}
             </UserAvatarButton>
+
             <View>
-              <Title>My Profile </Title>
+              <Title>Meu perfil</Title>
             </View>
-            <Form initialData={user} ref={formRef} onSubmit={handleSingUp}>
+
+            <Form
+              ref={formRef}
+              onSubmit={handleProfile}
+              initialData={{ name: user.name, email: user.email }}
+            >
               <Input
+                autoCorrect={false}
                 autoCapitalize="words"
                 name="name"
                 icon="user"
-                placeholder="Name"
+                placeholder="Nome"
                 returnKeyType="next"
                 onSubmitEditing={() => {
                   emailInputRef.current?.focus();
                 }}
               />
+
               <Input
-                ref={emailInputRef}
                 keyboardType="email-address"
                 autoCorrect={false}
                 autoCapitalize="none"
@@ -165,42 +210,50 @@ const SignUp: React.FC = () => {
                 icon="mail"
                 placeholder="E-mail"
                 returnKeyType="next"
+                ref={emailInputRef}
                 onSubmitEditing={() => {
-                  oldpasswordInputRef.current?.focus();
+                  oldPasswordInputRef.current?.focus();
                 }}
               />
 
               <Input
-                ref={oldpasswordInputRef}
                 secureTextEntry
-                name="old_passowrd"
+                name="old_password"
                 icon="lock"
-                placeholder="old password"
+                placeholder="Senha atual"
+                containerStyle={{ marginTop: 16 }}
                 textContentType="newPassword"
                 returnKeyType="next"
-                containerStyele={{ marginTop: 16 }}
-                onSubmitEditing={() => passwordInputRef.current?.focus()}
-              />
-              <Input
-                ref={passwordInputRef}
-                secureTextEntry
-                name="password"
-                icon="lock"
-                placeholder="New password"
-                textContentType="newPassword"
-                returnKeyType="next"
-                onSubmitEditing={() => confirmPasswordInputRef.current?.focus()}
+                ref={oldPasswordInputRef}
+                onSubmitEditing={() => {
+                  passwordInputRef.current?.focus();
+                }}
               />
 
               <Input
-                ref={confirmPasswordInputRef}
                 secureTextEntry
-                name="password_confirmation"
+                name="password"
                 icon="lock"
-                placeholder="Confirme new password"
+                placeholder="Nova senha"
+                textContentType="newPassword"
+                returnKeyType="next"
+                ref={passwordInputRef}
+                onSubmitEditing={() => {
+                  confirmPasswordInputRef.current?.focus();
+                }}
+              />
+
+              <Input
+                secureTextEntry
+                name="confirmPassword"
+                icon="lock"
+                placeholder="Confirmar senha"
                 textContentType="newPassword"
                 returnKeyType="send"
-                onSubmitEditing={() => formRef.current?.submitForm()}
+                ref={confirmPasswordInputRef}
+                onSubmitEditing={() => {
+                  formRef.current?.submitForm();
+                }}
               />
 
               <Button
@@ -208,7 +261,7 @@ const SignUp: React.FC = () => {
                   formRef.current?.submitForm();
                 }}
               >
-                Confirme changes
+                Confirmar
               </Button>
             </Form>
           </Container>
@@ -218,4 +271,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default Profile;
