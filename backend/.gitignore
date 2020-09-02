@@ -5,5 +5,5 @@ build/
 temp/
 yarn.lock/
 .ormconfig/
-
+dist/
 .yarn.lock
